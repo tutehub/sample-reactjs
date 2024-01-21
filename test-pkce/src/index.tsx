@@ -1,6 +1,6 @@
 import { AuthContext, AuthProvider, TAuthConfig, IAuthContext, TRefreshTokenExpiredEvent } from "react-oauth2-code-pkce"
 import ReactDOM from 'react-dom/client';
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import reportWebVitals from './reportWebVitals';
 
 
@@ -19,6 +19,29 @@ const authConfig: TAuthConfig = {
 
 const UserInfo = (): JSX.Element => {
   const { token, tokenData, login, logOut, idToken, error }: IAuthContext = useContext(AuthContext)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token) {
+          const response = await fetch('https://cowpte.com:8705/api/v1/questions/ra/count', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = await response.json();
+          console.log(data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+
 
   if (error) {
     return (
