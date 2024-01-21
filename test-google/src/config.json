@@ -1,0 +1,7 @@
+{
+    "clientID": "MMiFtdbHKRpy56EySEsJEWve4rUa",
+    "baseUrl": "https://api.asgardeo.io/t/tutehub",
+    "signInRedirectURL": "http://localhost:3000",
+    "signOutRedirectURL": "http://localhost:3000",
+    "scope": ["openid", "profile"]
+}
