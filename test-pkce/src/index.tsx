@@ -1,6 +1,6 @@
 import { AuthContext, AuthProvider, TAuthConfig, IAuthContext, TRefreshTokenExpiredEvent } from "react-oauth2-code-pkce"
 import ReactDOM from 'react-dom/client';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState} from 'react';
 import reportWebVitals from './reportWebVitals';
 
 
@@ -20,6 +20,8 @@ const authConfig: TAuthConfig = {
 const UserInfo = (): JSX.Element => {
   const { token, tokenData, login, logOut, idToken, error }: IAuthContext = useContext(AuthContext)
 
+  const [apiData, setApiData] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,7 +33,7 @@ const UserInfo = (): JSX.Element => {
           });
 
           const data = await response.json();
-          console.log(data);
+          setApiData(data.object);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -74,6 +76,9 @@ const UserInfo = (): JSX.Element => {
           <div>
             <h4>Login Information from Access Token (Base64 decoded JWT)</h4>
              <pre>{JSON.stringify(tokenData, null, 2)}</pre>
+          </div>
+          <div>
+            <p>API Data: {apiData}</p>
           </div>
           <button onClick={() => logOut()}>Logout</button>
         </>
